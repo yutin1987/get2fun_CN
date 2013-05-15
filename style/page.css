@@ -920,18 +920,102 @@ ul, li {
 }
 /* line 415, ../dev/sass/page.sass */
 #fixed .login {
+  position: absolute;
+  z-index: 10;
+  width: 290px;
+  left: -145px;
+  top: 20px;
+  padding: 30px 8px;
   display: none;
-  margin-left: -200px;
-  margin-top: -100px;
-  width: 400px;
-  height: 200px;
+}
+/* line 424, ../dev/sass/page.sass */
+#fixed .login .input {
+  height: 50px;
+  margin: 0px 12px;
+  margin-bottom: 10px;
+  position: relative;
+  vertical-align: middle;
+}
+/* line 430, ../dev/sass/page.sass */
+#fixed .login .input button {
+  border: 1px #082b3a solid;
+  color: rgba(28, 75, 102, 0.26);
+}
+/* line 433, ../dev/sass/page.sass */
+#fixed .login .input input {
+  background: none;
+  border: none;
+  height: 42px;
+  width: 234px;
+  margin-left: 5px;
+}
+/* line 439, ../dev/sass/page.sass */
+#fixed .login .input .left,
+#fixed .login .input .right {
+  position: absolute;
+  top: 0px;
+  width: 12px;
+  height: 50px;
+}
+/* line 445, ../dev/sass/page.sass */
+#fixed .login .input .left {
+  left: -12px;
+}
+/* line 447, ../dev/sass/page.sass */
+#fixed .login .input .right {
+  right: -12px;
+}
+/* line 449, ../dev/sass/page.sass */
+#fixed .login .toolbar {
+  height: 42px;
+}
+/* line 451, ../dev/sass/page.sass */
+#fixed .login .toolbar button {
+  height: 42px;
+  width: 132px;
+}
+/* line 454, ../dev/sass/page.sass */
+#fixed .login .toolbar .remember {
+  background-repeat: no-repeat;
+  cursor: pointer;
+  color: #d4d4d4;
+  height: 30px;
+  margin-top: 6px;
+  padding-left: 36px;
+  line-height: 30px;
+  vertical-align: middle;
+}
+/* line 463, ../dev/sass/page.sass */
+#fixed .login .tipbox {
+  display: none;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  line-height: 120px;
+  vertical-align: middle;
+}
+/* line 475, ../dev/sass/page.sass */
+#fixed .login.proceed .input {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+}
+/* line 477, ../dev/sass/page.sass */
+#fixed .login.proceed .tipbox {
+  display: block;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+  opacity: 1;
 }
 
-/* line 424, ../dev/sass/page.sass */
+/* line 483, ../dev/sass/page.sass */
 #viewport.guest .login {
   display: block;
 }
-/* line 426, ../dev/sass/page.sass */
+/* line 485, ../dev/sass/page.sass */
 #viewport.guest #toolbar,
 #viewport.guest #contents,
 #viewport.guest .nav-logout {
