@@ -1,0 +1,429 @@
+@import "compass"
+@import "../sass_lib/animation.sass"
+
++keyframes('running')
+  0%
+    +rotate(0deg)
+  50%
+    +rotate(180deg)
+    +single-box-shadow(#00ccff, 0, 0, 17px)
+  100%
+    +rotate(360deg)
+
++keyframes('stoppe')
+  0%
+    border-color: #ff0000 rgba(0, 0, 0, 0)
+  50%
+    border-color: rgba(0, 0, 0, 0) #ff0000
+  100%
+    border-color: #ff0000 rgba(0, 0, 0, 0)
+
++keyframes('paused')
+  0%
+    border-color: rgba(0, 0, 0, 0) #ff9900
+  50%
+    border-color: rgba(0, 0, 0, 0)
+  100%
+    border-color: rgba(0, 0, 0, 0) #ff9900
+
++keyframes('percentage')
+  from
+    background-position: 0 0
+  to
+    background-position: 10px 0
+
+body
+  background-image: inline-image('bg.png')
+  background-attachment: fixed
+
+ul, li
+  padding: 0
+  margin: 0
+
+$header: 82px
+$toolbar: 32px
+$subject: 22px
+
+$container: 980px      
+
+#header,
+#contents
+  width: 100%
+  display: block
+
+.container
+  width: $container
+  margin: 0 auto
+  display: block
+  position: relative
+
+#header
+  height: $header
+  overflow: hidden
+  background-image: inline-image('navbar_bg.png')
+  position: fixed
+  left: 0px
+  top: 0px
+  z-index: 999
+  #logo
+    width: 288px
+    height: 82px
+    display: block
+    text-align: center
+    position: absolute
+    left: 0px
+    top: 0px
+    background: inline-image('logo.png')
+    background-repeat: no-repeat
+    background-position: center center
+    background-size: contain    
+  .box-ver
+    position: absolute
+    right: 0px
+    top: 0px
+  .box-nav
+    position: absolute
+    right: 6px
+    top: 0px
+    list-style: none
+    li
+      float: right
+      &.separation
+        background-image: inline-image('separation.png')
+        background-repeat: no-repeat
+        background-position: center 22px
+        width: 9px
+        height: 75px
+    a
+      display: block
+      padding: 48px 6px 3px 6px
+      width: 54px
+      font-size: 12px
+      text-align: center
+      background-repeat: no-repeat
+      background-position: center 12px
+      color: #FFF
+      text-decoration: none
+      &.nav-logout
+        background-image: inline-image('nav_logout.png')
+      &.nav-ext
+        background-image: inline-image('nav_extension.png')
+      &.nav-clear
+        background-image: inline-image('nav_clear.png')
+      &.nav-refresh
+        background-image: inline-image('nav_refresh.png')
+  #control
+    margin-top: 7px
+    margin-left: 13px
+    position: absolute
+    left: 280px
+    top: 0px
+    .icon
+      float: left
+      position: relative
+    .img
+      width: 52px
+      height: 52px
+      background-repeat: no-repeat
+    .text
+      font-size: 24px
+      line-height: 52px
+      margin-left: 16px
+      float: left
+      display: none
+    .circle
+      background-color: rgba(0, 0, 0, 0)
+      border: 3px solid rgba(0, 0, 0, 0)
+      opacity: 0.9
+      border-radius: 46px
+      width: 46px
+      height: 46px
+      margin: 0 auto
+      position: absolute
+      top: 0px
+      left: 0px
+    &.server-running
+      .img
+        background-image: inline-image('control_pause.png')
+      &:hover .img
+        background-image: inline-image('control_pause_hover.png')
+      &:active .img
+        background-image: inline-image('control_pause_active.png')
+      .text
+        color: #2187e7
+        &.text-running
+          display: block
+      .circle
+        border-color: #00ccff rgba(0, 0, 0, 0)
+        +single-box-shadow(#2187e7, 0, 0, 35px)
+        +experimental(animation, running 3s infinite linear)
+    &.server-paused
+      .img
+        background-image: inline-image('control_run.png')
+      &:hover .img
+        background-image: inline-image('control_run_hover.png')
+      &:active .img
+        background-image: inline-image('control_run_active.png')
+      .text
+        color: #ff9900
+        &.text-paused
+          display: block
+        &.text-running
+          display: none
+      .circle
+        border-color: rgba(0, 0, 0, 0) #ff9900
+        +single-box-shadow(#666, 0, 0, 17px)
+        +experimental(animation, stoppe 1.8s infinite ease-in-out)
+    &.server-stopped
+      .img
+        background-image: inline-image('control_stop.png')
+      &:hover .img
+        background-image: inline-image('control_stop_hover.png')
+      &:active .img
+        background-image: inline-image('control_stop_active.png')
+      .text
+        color: #ff0000
+        &.text-stopped
+          display: block
+        &.text-running,
+        &.text-paused
+          display: none
+      .circle
+        border-color: #ff0000 rgba(0, 0, 0, 0)
+        +single-box-shadow(#666, 0, 0, 17px)
+        +experimental(animation, stoppe 1.8s infinite ease-in-out)
+
+#toolbar
+  position: fixed
+  top: $header
+  left: 50%
+  margin-left: -$container/2
+  z-index: 999
+  .toolbar
+    width: 100%
+    height: $toolbar
+    color: #1f1f1f
+    font-size: 12px
+    background: inline-image('toolbar_bg.png')
+    ul
+      li
+        display: block
+        padding: 5px 0px
+        margin: 5px 17px
+        cursor: pointer
+        float: left
+        background: inline-image('btn_disable_middle.png')
+        position: relative
+        &:first-child
+          margin-left: 28px
+        .left, .right
+          position: absolute
+          top: 0px
+          width: 14px
+          height: 22px
+        .left
+          left: -14px
+          background: inline-image('btn_disable_left.png')
+        .right
+          right: -14px
+          background: inline-image('btn_disable_right.png')
+  .subject
+    width: 100%
+    border-collapse: collapse
+    background: inline-image('thead_bg.png')
+    border: none
+    tr, th
+      border: none
+      height: $subject
+      font-size: 13px
+    th
+      background: inline-image('thead_hr.png')
+      background-repeat: no-repeat
+      overflow: hidden
+      span
+        display: block
+        margin-left: 3px
+      &:first-child
+        background: none
+      &.choose
+        cursor: pointer
+
+#contents
+  margin-top: $header + $toolbar + $subject
+  $height: 54px
+  .btn-cancel, .btn-reload, .btn-remove
+    a
+      display: block
+      width: 22px
+      height: 22px
+      margin: 0 auto
+  .btn-cancel a
+    background: inline-image('stop_normal.png')
+    &:hover
+      background: inline-image('stop_hover.png')
+    &:active
+      background: inline-image('stop_active.png')
+  .btn-reload a
+    background: inline-image('reload_normal.png')
+    &:hover
+      background: inline-image('reload_hover.png')
+    &:active
+      background: inline-image('reload_active.png')
+  .btn-remove a
+    background: inline-image('remove_normal.png')
+    &:hover
+      background: inline-image('remove_hover.png')
+    &:active
+      background: inline-image('remove_active.png')
+  .container
+    background: #e6edf6
+    min-height: $height*10
+    background: inline-image('list_bg.png')
+    .list
+      width: 100%
+      border-collapse: collapse
+      border: none
+      tr, td
+        border: none
+        height: $height
+        position: relative
+      tr
+        &.complete, &.failed
+          .btn-cancel a
+            background: inline-image('stop_disable.png')
+        &.download, &.wait
+          .btn-reload a
+            background: inline-image('reload_disable.png')
+        &.selected
+          .choose span
+            background: inline-image('checkbox_selected.png')
+        &.cancel
+          .status
+            background: inline-image('status_cancel.png')
+        &.wait
+          .status
+            background: inline-image('status_wait.png')
+        &.download
+          .status
+            background: inline-image('status_download.png')
+        &.complete
+          .status
+            background: inline-image('status_complete.png')
+        &.fail
+          .status
+            background: inline-image('status_fail.png')
+      td
+        text-align: center
+        span
+          white-space: nowrap
+          overflow: hidden
+          text-overflow: ellipsis
+          display: block
+          margin-left: 3px
+        &.choose
+          cursor: pointer
+          span
+            width: 18px
+            height: 18px
+            margin: 0 auto  
+            background: inline-image('checkbox.png')
+        &.thumb
+          cursor: pointer
+          span
+            height: 54px - 6px
+            background-size: cover
+        &.name
+          cursor: pointer
+          text-align: left
+        &.percentage
+          .status
+            width: 18px
+            height: 18px
+            position: absolute
+            left: 0px
+            top: 16px
+          .progress
+            height: 10px
+            border: 1px #303030 solid
+            background: inline-image('percentage_bg.png')
+            +border-radius(14px)
+            .bar
+              width: 0%
+              height: 10px
+              background: inline-image('percentage.png')
+              +transition(width 250ms ease-in-out 50ms)
+              +experimental(animation, percentage 0.4s infinite linear)
+
+#toolbar, #contents
+  tr
+    clear: both
+    font-size: 12px
+    td, th
+      overflow: hidden
+    .choose
+      width: 28px
+      span
+        width: 28px - 6px
+    .thumb
+      width: 90px
+      span
+        width: 90px - 6px
+    .name
+      width: 300px
+      span
+        width: 300px - 6px
+        &.group
+          color: #666
+          margin-bottom: 2px
+        &.title
+          font-size: 16px
+    .percentage
+      width: 100px
+      span
+        width: 100px - 6px
+    .size
+      width: 81px
+      span
+        width: 81px - 6px
+    .owner
+      width: 60px
+      span
+        width: 60px - 6px
+    .src
+      width: 50px
+      span
+        width: 50px - 6px
+    .quality
+      width: 44px
+      span
+        width: 44px - 6px
+    .btn-cancel
+      width: 35px
+    .btn-reload
+      width: 35px
+    .btn-remove
+      width: 35px
+    .add_time
+      width: 92px
+      span
+        width: 92px - 6px
+
+#fixed
+  position: absolute
+  left: 50%
+  top: 50%
+  .login
+    display: none
+    margin-left: -200px
+    margin-top:  -100px
+    width: 400px
+    height: 200px
+
+#viewport
+  &.guest
+    .login
+      display: block
+    #toolbar,
+    #contents,
+    .nav-logout
+      display: none
