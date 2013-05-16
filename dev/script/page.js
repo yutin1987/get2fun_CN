@@ -207,6 +207,9 @@ $(function() {
       }
     });
   });
+  $('.box-nav .nav-logout').on('click', function() {
+    return $('#viewport').addClass('guest');
+  });
   $('#toolbar .toolbar .cancel').on('click', function() {
     var selected;
 

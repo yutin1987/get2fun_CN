@@ -249,6 +249,8 @@ Task = function(t) {
             var e;
             return (e = t.get("status")) === STATUS.RELOAD || e === STATUS.CANCEL || e === STATUS.COMPLETE ? $.task.remove(t) : void 0;
         });
+    }), $(".box-nav .nav-logout").on("click", function() {
+        return $("#viewport").addClass("guest");
     }), $("#toolbar .toolbar .cancel").on("click", function() {
         var e;
         return e = $("tr.selected", n), e.length > 0 ? (e = e.map(function() {

@@ -145,6 +145,9 @@ $ ->
       if item.get('status') in [STATUS.RELOAD, STATUS.CANCEL, STATUS.COMPLETE]
         $.task.remove(item)
 
+  $('.box-nav .nav-logout').on 'click', () ->
+    $('#viewport').addClass 'guest'
+
   # toolber
   $('#toolbar .toolbar .cancel').on 'click', () ->
     selected = $('tr.selected', list)

@@ -413,20 +413,23 @@ $container: 980px
   left: 50%
   top: 50%
   .login
-    $login-w: 290px
+    $width: 290px
+    $height: 180px
     position: absolute
     z-index: 10
-    width: $login-w
-    left: -$login-w / 2
-    top: 20px
-    padding: 30px 8px
     display: none
+    width: $width
+    height: $height
+    margin-left: -$width/2
+    margin-top: -$height/2
+    padding: 30px 8px
     .input
       height: 50px
       margin: 0px 12px
       margin-bottom: 10px
       position: relative
       vertical-align: middle
+      background: inline-image('login_input.png')
       button
         border: 1px #082b3a solid
         color: rgba(#1c4b66, 0.26)
@@ -434,7 +437,7 @@ $container: 980px
         background: none
         border: none
         height: 50px - 8px
-        width: $login-w - 24px - 20px - 12px
+        width: $width - 24px - 20px - 12px
         margin-left: 5px
       .left,
       .right
@@ -444,8 +447,10 @@ $container: 980px
         height: 50px
       .left
         left: -12px
+        background: inline-image('login_input_left.png')
       .right
         right: -12px
+        background: inline-image('login_input_right.png')
     .toolbar
       height: 42px
       button
