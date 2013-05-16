@@ -1,4 +1,4 @@
-var API, STATUS, STATUS_CODE, Task, TaskList, app, _ref, _ref1,
+var API, STATUS, STATUS_CODE, Task, TaskList, User, app, _ref, _ref1, _ref2,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
@@ -7,7 +7,8 @@ API = {
   CANCEL_TASKS: './api/dls5.php?v=cancel_task',
   RELOAD_TASKS: './api/dls5.php?v=redownload_task',
   REMOVE_TASKS: './api/dls5.php?v=delete_tasks',
-  CLEAR_TASKS: './api/dls5.php?v=clear_tasks'
+  CLEAR_TASKS: './api/dls5.php?v=clear_tasks',
+  LOGIN: './api2/login2.php'
 };
 
 STATUS = {
@@ -66,11 +67,30 @@ TaskList = (function(_super) {
 
 })(Backbone.Collection);
 
+User = (function(_super) {
+  __extends(User, _super);
+
+  function User() {
+    _ref2 = User.__super__.constructor.apply(this, arguments);
+    return _ref2;
+  }
+
+  User.prototype.defaults = {
+    user: '',
+    status: 0
+  };
+
+  return User;
+
+})(Backbone.Model);
+
 app = {
   up_time: 0
 };
 
 $.task = new TaskList();
+
+$.user = new User();
 
 $(function() {
   var event_cancel, event_reload, event_remove, item, list, subject, update, win;
@@ -139,6 +159,13 @@ $(function() {
     });
   };
   update();
+  $.user.on('change:status', function(m, v, opt) {
+    if (v === 1 || v === 2) {
+      return $('#viewport').removeClass('guest');
+    } else {
+      return $('#viewport').addClass('guest');
+    }
+  });
   event_reload = function(tid, num) {
     if (num == null) {
       num = 0;
@@ -193,22 +220,74 @@ $(function() {
       }
     });
   };
+  $('.login .remember').on('click', function() {
+    return $(this).toggleClass('checked');
+  });
+  $('#login-submit').on('click', function() {
+    var pwd, user;
+
+    user = $('#username').val();
+    pwd = $('#password').val();
+    $('.login').removeClass('invalid').addClass('proceed');
+    return $.ajax({
+      type: "POST",
+      url: API.LOGIN,
+      data: {
+        user: user,
+        pwd: pwd
+      },
+      dataType: 'json',
+      timeout: 4000,
+      cache: false
+    }).always(function(res, s) {
+      if (s === 'success' && String(res) === 'true') {
+        $.user.set({
+          user: user,
+          status: user === 'admin' ? 2 : 1
+        });
+      } else {
+        $.user.set({
+          user: '',
+          status: 0
+        });
+        $('.login').addClass('invalid');
+      }
+      return $('.login').removeClass('proceed');
+    });
+  });
   $('.box-nav .nav-refresh').on('click', function() {
     $('.list tbody').empty();
     $.task.reset();
     return app.up_time = 0;
   });
   $('.box-nav .nav-clear').on('click', function() {
-    return $.task.forEach(function(item) {
-      var _ref2;
-
-      if ((_ref2 = item.get('status')) === STATUS.RELOAD || _ref2 === STATUS.CANCEL || _ref2 === STATUS.COMPLETE) {
-        return $.task.remove(item);
-      }
+    $.ajax({
+      type: "POST",
+      url: API.CLEAR_TASKS,
+      data: {
+        time: app.up_time
+      },
+      dataType: 'json',
+      cache: false
     });
+    $('.list tbody').empty();
+    $.task.reset();
+    return app.up_time = 0;
   });
   $('.box-nav .nav-logout').on('click', function() {
-    return $('#viewport').addClass('guest');
+    $('#viewport').addClass('guest');
+    $.user.set({
+      status: 0
+    });
+    return $.ajax({
+      type: "POST",
+      url: API.LOGIN,
+      data: {
+        logout: true
+      },
+      dataType: 'json',
+      cache: false
+    });
   });
   $('#toolbar .toolbar .cancel').on('click', function() {
     var selected;

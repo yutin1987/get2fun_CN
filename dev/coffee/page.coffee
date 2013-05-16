@@ -4,6 +4,7 @@ API =
   RELOAD_TASKS: './api/dls5.php?v=redownload_task'
   REMOVE_TASKS: './api/dls5.php?v=delete_tasks'
   CLEAR_TASKS: './api/dls5.php?v=clear_tasks'
+  LOGIN: './api2/login2.php'
 
 STATUS =
   RELOAD: 0
@@ -36,12 +37,18 @@ class Task extends Backbone.Model
 class TaskList extends Backbone.Collection
   model: Task
 
+class User extends Backbone.Model
+  defaults:
+    user: ''
+    status: 0
+
 #
 
 app = 
   up_time: 0
 
 $.task = new TaskList()
+$.user = new User()
 
 #
 
@@ -51,6 +58,7 @@ $ ->
   subject = $('#toolbar .subject')
   item = $('.item',list).detach()
   
+  # Task
   $.task.on 'add', (m, c, opt) ->
     new_item = item.clone().data 'tid', m.id
     $(new_item).addClass STATUS_CODE[m.get('status')]
@@ -104,6 +112,14 @@ $ ->
 
   update()
 
+  # User
+  $.user.on 'change:status', (m, v, opt) ->
+    if v in [1,2]
+      $('#viewport').removeClass 'guest'
+    else
+      $('#viewport').addClass 'guest'
+
+
   event_reload = (tid, num=0) ->
     $.ajax({
       type: "POST"
@@ -134,6 +150,39 @@ $ ->
     }).always (res,s) ->
       event_remove(tid, ++num) if !(s is 'success' and res.code >= 0) and num<5
 
+  # user
+  $('.login .remember').on 'click', () ->
+    $(@).toggleClass 'checked'
+
+  $('#login-submit').on 'click', () ->
+
+    user = $('#username').val()
+    pwd = $('#password').val()
+
+    $('.login').removeClass('invalid')
+               .addClass('proceed')
+
+    $.ajax({
+      type: "POST"
+      url: API.LOGIN
+      data: { user: user, pwd: pwd}
+      dataType: 'json'
+      timeout: 4000
+      cache: no
+    }).always (res,s) ->
+      if s is 'success' and String(res) is 'true'
+        $.user.set 
+          user: user
+          status: if user is 'admin' then 2 else 1
+      else
+        $.user.set
+          user: ''
+          status: 0
+
+        $('.login').addClass 'invalid'
+        
+      $('.login').removeClass 'proceed'
+
   # box nav
   $('.box-nav .nav-refresh').on 'click', () ->
     $('.list tbody').empty()
@@ -141,12 +190,31 @@ $ ->
     app.up_time = 0
 
   $('.box-nav .nav-clear').on 'click', () ->
-    $.task.forEach (item) ->
-      if item.get('status') in [STATUS.RELOAD, STATUS.CANCEL, STATUS.COMPLETE]
-        $.task.remove(item)
+    $.ajax({
+      type: "POST"
+      url: API.CLEAR_TASKS
+      data: {time: app.up_time}
+      dataType: 'json'
+      cache: no
+    })
+    $('.list tbody').empty()
+    $.task.reset()
+    app.up_time = 0
+    # $.task.forEach (item) ->
+    #   if item.get('status') in [STATUS.RELOAD, STATUS.CANCEL, STATUS.COMPLETE]
+    #     $.task.remove(item)
 
   $('.box-nav .nav-logout').on 'click', () ->
     $('#viewport').addClass 'guest'
+    $.user.set {status: 0}
+
+    $.ajax({
+      type: "POST"
+      url: API.LOGIN
+      data: {logout: true}
+      dataType: 'json'
+      cache: no
+    })
 
   # toolber
   $('#toolbar .toolbar .cancel').on 'click', () ->

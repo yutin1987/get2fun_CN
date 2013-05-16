@@ -42,11 +42,11 @@
         r.m = "([0-9][0-9]?)", r.mm = "([0-9][0-9])", r.s = "([0-9][0-9]?)", r.ss = "([0-9][0-9])", 
         r.z = "([0-9][0-9]?[0-9]?)", r.zz = "([0-9][0-9]?[0-9]?)[z]", r.zzz = "([0-9][0-9][0-9])", 
         r.ap = "([ap][m])", r.a = "([ap][m])", r.AP = "([AP][M])", r.A = "([AP][M])";
-        for (var n = Date.parseLogic, s = 0, o = "", i = Array(""), c = ""; e.length > s; ) {
-            for (c = e.charAt(s); e.length > s + 1 && void 0 !== r[c + e.charAt(s + 1)]; ) c += e.charAt(++s);
-            void 0 !== r[c] ? (o += r[c], i[i.length] = c) : o += c, s++;
+        for (var n = Date.parseLogic, s = 0, o = "", i = Array(""), u = ""; e.length > s; ) {
+            for (u = e.charAt(s); e.length > s + 1 && void 0 !== r[u + e.charAt(s + 1)]; ) u += e.charAt(++s);
+            void 0 !== r[u] ? (o += r[u], i[i.length] = u) : o += u, s++;
         }
-        var u = RegExp(o), d = t.match(u);
+        var c = RegExp(o), d = t.match(c);
         if (void 0 === d || d.length !== i.length) return void 0;
         for (s = 0; i.length > s; s++) if ("" !== i[s]) switch (i[s]) {
           case "yyyy":
@@ -118,7 +118,7 @@
     return (r / Math.pow(1024, s.length - 1)).toFixed(t) + s[s.length - 1];
 };
 
-var API, STATUS, STATUS_CODE, Task, TaskList, app, _ref, _ref1, __hasProp = {}.hasOwnProperty, __extends = function(t, e) {
+var API, STATUS, STATUS_CODE, Task, TaskList, User, app, _ref, _ref1, _ref2, __hasProp = {}.hasOwnProperty, __extends = function(t, e) {
     function a() {
         this.constructor = t;
     }
@@ -132,7 +132,8 @@ API = {
     CANCEL_TASKS: "./api/dls5.php?v=cancel_task",
     RELOAD_TASKS: "./api/dls5.php?v=redownload_task",
     REMOVE_TASKS: "./api/dls5.php?v=delete_tasks",
-    CLEAR_TASKS: "./api/dls5.php?v=clear_tasks"
+    CLEAR_TASKS: "./api/dls5.php?v=clear_tasks",
+    LOGIN: "./api2/login2.php"
 }, STATUS = {
     RELOAD: 0,
     CANCEL: 1,
@@ -166,9 +167,17 @@ Task = function(t) {
         return _ref1 = e.__super__.constructor.apply(this, arguments);
     }
     return __extends(e, t), e.prototype.model = Task, e;
-}(Backbone.Collection), app = {
+}(Backbone.Collection), User = function(t) {
+    function e() {
+        return _ref2 = e.__super__.constructor.apply(this, arguments);
+    }
+    return __extends(e, t), e.prototype.defaults = {
+        user: "",
+        status: 0
+    }, e;
+}(Backbone.Model), app = {
     up_time: 0
-}, $.task = new TaskList(), $(function() {
+}, $.task = new TaskList(), $.user = new User(), $(function() {
     var t, e, a, r, n, s, o, i;
     return i = $(window), n = $("#contents .list tbody"), s = $("#toolbar .subject"), 
     r = $(".item", n).detach(), $.task.on("add", function(t) {
@@ -206,7 +215,9 @@ Task = function(t) {
                 return o();
             }, 1500);
         });
-    }, o(), e = function(t, a) {
+    }, o(), $.user.on("change:status", function(t, e) {
+        return 1 === e || 2 === e ? $("#viewport").removeClass("guest") : $("#viewport").addClass("guest");
+    }), e = function(t, a) {
         return null == a && (a = 0), $.ajax({
             type: "POST",
             url: API.RELOAD_TASKS,
@@ -242,15 +253,54 @@ Task = function(t) {
         }).always(function(r, n) {
             return !("success" === n && r.code >= 0) && 5 > e ? a(t, ++e) : void 0;
         });
-    }, $(".box-nav .nav-refresh").on("click", function() {
+    }, $(".login .remember").on("click", function() {
+        return $(this).toggleClass("checked");
+    }), $("#login-submit").on("click", function() {
+        var t, e;
+        return e = $("#username").val(), t = $("#password").val(), $(".login").removeClass("invalid").addClass("proceed"), 
+        $.ajax({
+            type: "POST",
+            url: API.LOGIN,
+            data: {
+                user: e,
+                pwd: t
+            },
+            dataType: "json",
+            timeout: 4e3,
+            cache: !1
+        }).always(function(t, a) {
+            return "success" === a && "true" == t + "" ? $.user.set({
+                user: e,
+                status: "admin" === e ? 2 : 1
+            }) : ($.user.set({
+                user: "",
+                status: 0
+            }), $(".login").addClass("invalid")), $(".login").removeClass("proceed");
+        });
+    }), $(".box-nav .nav-refresh").on("click", function() {
         return $(".list tbody").empty(), $.task.reset(), app.up_time = 0;
     }), $(".box-nav .nav-clear").on("click", function() {
-        return $.task.forEach(function(t) {
-            var e;
-            return (e = t.get("status")) === STATUS.RELOAD || e === STATUS.CANCEL || e === STATUS.COMPLETE ? $.task.remove(t) : void 0;
-        });
+        return $.ajax({
+            type: "POST",
+            url: API.CLEAR_TASKS,
+            data: {
+                time: app.up_time
+            },
+            dataType: "json",
+            cache: !1
+        }), $(".list tbody").empty(), $.task.reset(), app.up_time = 0;
     }), $(".box-nav .nav-logout").on("click", function() {
-        return $("#viewport").addClass("guest");
+        return $("#viewport").addClass("guest"), $.user.set({
+            status: 0
+        }), $.ajax({
+            type: "POST",
+            url: API.LOGIN,
+            data: {
+                logout: !0
+            },
+            dataType: "json",
+            cache: !1
+        });
     }), $("#toolbar .toolbar .cancel").on("click", function() {
         var e;
         return e = $("tr.selected", n), e.length > 0 ? (e = e.map(function() {
