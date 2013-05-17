@@ -1,4 +1,4 @@
-var API, STATUS, STATUS_CODE, Task, TaskList, User, app, _ref, _ref1, _ref2,
+var API, App, STATUS, STATUS_CODE, Task, TaskList, app, _ref, _ref1, _ref2,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
@@ -8,7 +8,8 @@ API = {
   RELOAD_TASKS: './api/dls5.php?v=redownload_task',
   REMOVE_TASKS: './api/dls5.php?v=delete_tasks',
   CLEAR_TASKS: './api/dls5.php?v=clear_tasks',
-  LOGIN: './api2/login2.php'
+  LOGIN: './api2/login2.php',
+  INFO: './api2/info.php'
 };
 
 STATUS = {
@@ -67,20 +68,20 @@ TaskList = (function(_super) {
 
 })(Backbone.Collection);
 
-User = (function(_super) {
-  __extends(User, _super);
+App = (function(_super) {
+  __extends(App, _super);
 
-  function User() {
-    _ref2 = User.__super__.constructor.apply(this, arguments);
+  function App() {
+    _ref2 = App.__super__.constructor.apply(this, arguments);
     return _ref2;
   }
 
-  User.prototype.defaults = {
+  App.prototype.defaults = {
     user: '',
     status: 0
   };
 
-  return User;
+  return App;
 
 })(Backbone.Model);
 
@@ -90,10 +91,10 @@ app = {
 
 $.task = new TaskList();
 
-$.user = new User();
+$.app = new App();
 
 $(function() {
-  var event_cancel, event_reload, event_remove, item, list, subject, update, win;
+  var event_cancel, event_reload, event_remove, item, list, subject, sys_status, sys_user, update, win;
 
   win = $(window);
   list = $('#contents .list tbody');
@@ -149,9 +150,8 @@ $(function() {
             return app.up_time = this.time;
           }
         });
-        control.attr('class', 'server-running');
       } else {
-        control.attr('class', 'server-stopped');
+        sys_user(false);
       }
       return setTimeout((function() {
         return update();
@@ -159,7 +159,7 @@ $(function() {
     });
   };
   update();
-  $.user.on('change:status', function(m, v, opt) {
+  $.app.on('change:status', function(m, v, opt) {
     if (v === 1 || v === 2) {
       return $('#viewport').removeClass('guest');
     } else {
@@ -241,12 +241,12 @@ $(function() {
       cache: false
     }).always(function(res, s) {
       if (s === 'success' && String(res) === 'true') {
-        $.user.set({
+        $.app.set({
           user: user,
           status: user === 'admin' ? 2 : 1
         });
       } else {
-        $.user.set({
+        $.app.set({
           user: '',
           status: 0
         });
@@ -276,7 +276,7 @@ $(function() {
   });
   $('.box-nav .nav-logout').on('click', function() {
     $('#viewport').addClass('guest');
-    $.user.set({
+    $.app.set({
       status: 0
     });
     return $.ajax({
@@ -355,11 +355,76 @@ $(function() {
     $.task.get(tid).set('status', STATUS.RELOAD);
     return event_reload([tid]);
   });
-  return $(list).on('click', '.btn-remove', function() {
+  $(list).on('click', '.btn-remove', function() {
     var tid;
 
     tid = $(this).parents('tr:first').data('tid');
     $.task.remove($.task.get(tid));
     return event_remove([tid]);
   });
+  sys_status = function(listen) {
+    return $.ajax({
+      type: "POST",
+      url: API.INFO,
+      dataType: 'json',
+      timeout: 4000,
+      cache: false
+    }).always(function(res, s) {
+      if (s === 'success') {
+        if (res.server != null) {
+          if (res.server.qpkg_status !== 'TRUE') {
+            $('body').addClass('no-qpkg');
+          } else if (res.server.process_status !== 1 || res.server.server_status === 0) {
+            $('body').addClass('has-error');
+          } else {
+            $('body').removeClass('no-qpkg has-error');
+          }
+          switch (res.server.server_status) {
+            case 0:
+              $('#control').attr('class', 'server-stopped');
+              break;
+            case 1:
+              $('#control').attr('class', 'server-running');
+              break;
+            case 2:
+              $('#control').attr('class', 'server-paused');
+          }
+        } else {
+          $('body').addClass('has-error');
+        }
+      } else {
+        $('#control').attr('class', 'server-stopped');
+      }
+      return setTimeout(sys_status, 10000);
+    });
+  };
+  sys_status();
+  sys_user = function(listen) {
+    return $.ajax({
+      type: "POST",
+      url: API.LOGIN,
+      data: {
+        check: true
+      },
+      dataType: 'json',
+      timeout: 4000,
+      cache: false
+    }).always(function(res, s) {
+      if (s === 'success' && res.status === "true") {
+        $.app.set({
+          user: res.user,
+          status: res.user === 'admin' ? 2 : 1
+        });
+      } else {
+        $.app.set({
+          user: '',
+          status: 0
+        });
+      }
+      if (listen !== false) {
+        return setTimeout(sys_user, 10000);
+      }
+    });
+  };
+  return sys_user();
 });

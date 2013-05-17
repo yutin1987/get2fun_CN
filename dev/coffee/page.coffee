@@ -5,6 +5,7 @@ API =
   REMOVE_TASKS: './api/dls5.php?v=delete_tasks'
   CLEAR_TASKS: './api/dls5.php?v=clear_tasks'
   LOGIN: './api2/login2.php'
+  INFO: './api2/info.php'
 
 STATUS =
   RELOAD: 0
@@ -37,7 +38,7 @@ class Task extends Backbone.Model
 class TaskList extends Backbone.Collection
   model: Task
 
-class User extends Backbone.Model
+class App extends Backbone.Model
   defaults:
     user: ''
     status: 0
@@ -48,7 +49,7 @@ app =
   up_time: 0
 
 $.task = new TaskList()
-$.user = new User()
+$.app = new App()
 
 #
 
@@ -104,16 +105,15 @@ $ ->
         $(res.value).each ->
           $.task.add @, {merge: true}
           app.up_time = @.time if @.time > app.up_time
-        control.attr 'class', 'server-running'
       else
-        control.attr 'class', 'server-stopped'
+        sys_user off
 
       setTimeout (-> update()), 1500
 
   update()
 
   # User
-  $.user.on 'change:status', (m, v, opt) ->
+  $.app.on 'change:status', (m, v, opt) ->
     if v in [1,2]
       $('#viewport').removeClass 'guest'
     else
@@ -171,11 +171,11 @@ $ ->
       cache: no
     }).always (res,s) ->
       if s is 'success' and String(res) is 'true'
-        $.user.set 
+        $.app.set 
           user: user
           status: if user is 'admin' then 2 else 1
       else
-        $.user.set
+        $.app.set
           user: ''
           status: 0
 
@@ -206,7 +206,7 @@ $ ->
 
   $('.box-nav .nav-logout').on 'click', () ->
     $('#viewport').addClass 'guest'
-    $.user.set {status: 0}
+    $.app.set {status: 0}
 
     $.ajax({
       type: "POST"
@@ -263,3 +263,59 @@ $ ->
     tid = $(@).parents('tr:first').data('tid')
     $.task.remove $.task.get(tid)
     event_remove [tid]
+
+  # listen
+  sys_status = (listen) ->
+    $.ajax({
+      type: "POST"
+      url: API.INFO
+      dataType: 'json'
+      timeout: 4000
+      cache: no
+    }).always (res,s) ->
+      if s is 'success'
+        if res.server?
+          if res.server.qpkg_status isnt 'TRUE'
+            $('body').addClass 'no-qpkg'
+          else if res.server.process_status isnt 1 || res.server.server_status is 0
+            $('body').addClass 'has-error'
+          else
+            $('body').removeClass 'no-qpkg has-error'
+
+          switch res.server.server_status
+            when 0
+              $('#control').attr 'class', 'server-stopped'
+            when 1
+              $('#control').attr 'class', 'server-running'
+            when 2
+              $('#control').attr 'class', 'server-paused'
+        else
+          $('body').addClass 'has-error'
+      else
+        $('#control').attr 'class', 'server-stopped'
+
+      setTimeout(sys_status, 10000)
+
+  sys_status()
+
+  sys_user = (listen) ->
+    $.ajax({
+      type: "POST"
+      url: API.LOGIN
+      data: {check: true}
+      dataType: 'json'
+      timeout: 4000
+      cache: no
+    }).always (res,s) ->
+      if s is 'success' and res.status is "true"
+        $.app.set 
+          user: res.user
+          status: if res.user is 'admin' then 2 else 1
+      else
+        $.app.set 
+          user: ''
+          status: 0
+
+      setTimeout(sys_user, 10000) if listen isnt off
+
+  sys_user()
