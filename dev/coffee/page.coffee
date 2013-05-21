@@ -234,21 +234,21 @@ $ ->
 
   # toolber
   $('#toolbar .toolbar .cancel').on 'click', () ->
-    selected = $('tr.selected', list)
+    selected = $('.item.selected', list)
     if selected.length > 0
       selected = selected.map -> $(@).data 'tid'
       event_cancel $.makeArray(selected)
       $(selected).each () -> $.task.get(@).set 'status', STATUS.CANCEL
 
   $('#toolbar .toolbar .reload').on 'click', () ->
-    selected = $('tr.selected', list)
+    selected = $('.item.selected', list)
     if selected.length > 0
       selected = selected.map -> $(@).data 'tid'
       event_reload $.makeArray(selected)
       $(selected).each () -> $.task.get(@).set 'status', STATUS.RELOAD
 
   $('#toolbar .toolbar .remove').on 'click', () ->
-    selected = $('tr.selected', list)
+    selected = $('.item.selected', list)
     if selected.length > 0
       selected = selected.map -> $(@).data 'tid'
       event_remove $.makeArray(selected) 
@@ -256,27 +256,27 @@ $ ->
 
   # list  
   $('.choose', subject).on 'click', () ->
-    if $('tr.selected', list).length > 0
-      $('tr', list).removeClass 'selected'
+    if $('.item.selected', list).length > 0
+      $('.item', list).removeClass 'selected'
     else
-      $('tr', list).addClass 'selected'
+      $('.item', list).addClass 'selected'
 
   # item
   $(list).on 'click', '.choose, .thumb, .name', () ->
-    $(@).parents('tr:first').toggleClass('selected')
+    $(@).parents('.item:first').toggleClass('selected')
 
   $(list).on 'click', '.btn-cancel', () ->
-    tid = $(@).parents('tr:first').data('tid')
+    tid = $(@).parents('.item:first').data('tid')
     $.task.get(tid).set 'status', STATUS.CANCEL
     event_cancel [tid]
 
   $(list).on 'click', '.btn-reload', () ->
-    tid = $(@).parents('tr:first').data('tid')
+    tid = $(@).parents('.item:first').data('tid')
     $.task.get(tid).set 'status', STATUS.RELOAD
     event_reload [tid]
 
   $(list).on 'click', '.btn-remove', () ->
-    tid = $(@).parents('tr:first').data('tid')
+    tid = $(@).parents('.item:first').data('tid')
     $.task.remove $.task.get(tid)
     event_remove [tid]
 

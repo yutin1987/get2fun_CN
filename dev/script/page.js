@@ -317,7 +317,7 @@ $(function() {
   $('#toolbar .toolbar .cancel').on('click', function() {
     var selected;
 
-    selected = $('tr.selected', list);
+    selected = $('.item.selected', list);
     if (selected.length > 0) {
       selected = selected.map(function() {
         return $(this).data('tid');
@@ -331,7 +331,7 @@ $(function() {
   $('#toolbar .toolbar .reload').on('click', function() {
     var selected;
 
-    selected = $('tr.selected', list);
+    selected = $('.item.selected', list);
     if (selected.length > 0) {
       selected = selected.map(function() {
         return $(this).data('tid');
@@ -345,7 +345,7 @@ $(function() {
   $('#toolbar .toolbar .remove').on('click', function() {
     var selected;
 
-    selected = $('tr.selected', list);
+    selected = $('.item.selected', list);
     if (selected.length > 0) {
       selected = selected.map(function() {
         return $(this).data('tid');
@@ -357,33 +357,33 @@ $(function() {
     }
   });
   $('.choose', subject).on('click', function() {
-    if ($('tr.selected', list).length > 0) {
-      return $('tr', list).removeClass('selected');
+    if ($('.item.selected', list).length > 0) {
+      return $('.item', list).removeClass('selected');
     } else {
-      return $('tr', list).addClass('selected');
+      return $('.item', list).addClass('selected');
     }
   });
   $(list).on('click', '.choose, .thumb, .name', function() {
-    return $(this).parents('tr:first').toggleClass('selected');
+    return $(this).parents('.item:first').toggleClass('selected');
   });
   $(list).on('click', '.btn-cancel', function() {
     var tid;
 
-    tid = $(this).parents('tr:first').data('tid');
+    tid = $(this).parents('.item:first').data('tid');
     $.task.get(tid).set('status', STATUS.CANCEL);
     return event_cancel([tid]);
   });
   $(list).on('click', '.btn-reload', function() {
     var tid;
 
-    tid = $(this).parents('tr:first').data('tid');
+    tid = $(this).parents('.item:first').data('tid');
     $.task.get(tid).set('status', STATUS.RELOAD);
     return event_reload([tid]);
   });
   $(list).on('click', '.btn-remove', function() {
     var tid;
 
-    tid = $(this).parents('tr:first').data('tid');
+    tid = $(this).parents('.item:first').data('tid');
     $.task.remove($.task.get(tid));
     return event_remove([tid]);
   });

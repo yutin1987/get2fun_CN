@@ -316,40 +316,40 @@ Task = function(e) {
         });
     }), $("#toolbar .toolbar .cancel").on("click", function() {
         var t;
-        return t = $("tr.selected", s), t.length > 0 ? (t = t.map(function() {
+        return t = $(".item.selected", s), t.length > 0 ? (t = t.map(function() {
             return $(this).data("tid");
         }), e($.makeArray(t)), $(t).each(function() {
             return $.task.get(this).set("status", STATUS.CANCEL);
         })) : void 0;
     }), $("#toolbar .toolbar .reload").on("click", function() {
         var e;
-        return e = $("tr.selected", s), e.length > 0 ? (e = e.map(function() {
+        return e = $(".item.selected", s), e.length > 0 ? (e = e.map(function() {
             return $(this).data("tid");
         }), t($.makeArray(e)), $(e).each(function() {
             return $.task.get(this).set("status", STATUS.RELOAD);
         })) : void 0;
     }), $("#toolbar .toolbar .remove").on("click", function() {
         var e;
-        return e = $("tr.selected", s), e.length > 0 ? (e = e.map(function() {
+        return e = $(".item.selected", s), e.length > 0 ? (e = e.map(function() {
             return $(this).data("tid");
         }), a($.makeArray(e)), $(e).each(function() {
             return $.task.remove($.task.get(this));
         })) : void 0;
     }), $(".choose", n).on("click", function() {
-        return $("tr.selected", s).length > 0 ? $("tr", s).removeClass("selected") : $("tr", s).addClass("selected");
+        return $(".item.selected", s).length > 0 ? $(".item", s).removeClass("selected") : $(".item", s).addClass("selected");
     }), $(s).on("click", ".choose, .thumb, .name", function() {
-        return $(this).parents("tr:first").toggleClass("selected");
+        return $(this).parents(".item:first").toggleClass("selected");
     }), $(s).on("click", ".btn-cancel", function() {
         var t;
-        return t = $(this).parents("tr:first").data("tid"), $.task.get(t).set("status", STATUS.CANCEL), 
+        return t = $(this).parents(".item:first").data("tid"), $.task.get(t).set("status", STATUS.CANCEL), 
         e([ t ]);
     }), $(s).on("click", ".btn-reload", function() {
         var e;
-        return e = $(this).parents("tr:first").data("tid"), $.task.get(e).set("status", STATUS.RELOAD), 
+        return e = $(this).parents(".item:first").data("tid"), $.task.get(e).set("status", STATUS.RELOAD), 
         t([ e ]);
     }), $(s).on("click", ".btn-remove", function() {
         var e;
-        return e = $(this).parents("tr:first").data("tid"), $.task.remove($.task.get(e)), 
+        return e = $(this).parents(".item:first").data("tid"), $.task.remove($.task.get(e)), 
         a([ e ]);
     }), o = function() {
         return $.ajax({
