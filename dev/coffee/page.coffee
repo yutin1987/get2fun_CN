@@ -55,7 +55,7 @@ $.app = new App()
 
 $ ->
   win = $(window)
-  list = $('#contents .list tbody')
+  list = $('#contents .list')
   subject = $('#toolbar .subject')
   item = $('.item',list).detach()
   

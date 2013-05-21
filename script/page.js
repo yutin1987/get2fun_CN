@@ -180,8 +180,8 @@ Task = function(e) {
     up_time: 0
 }, $.task = new TaskList(), $.app = new App(), $(function() {
     var e, t, a, r, s, n, o, i, c, u;
-    return u = $(window), s = $("#contents .list tbody"), n = $("#toolbar .subject"), 
-    r = $(".item", s).detach(), $.task.on("add", function(e) {
+    return u = $(window), s = $("#contents .list"), n = $("#toolbar .subject"), r = $(".item", s).detach(), 
+    $.task.on("add", function(e) {
         var t;
         return t = r.clone().data("tid", e.id), $(t).addClass(STATUS_CODE[e.get("status")]), 
         $(".thumb span", t).css("background-image", "url(" + e.get("cover") + ")"), $(".name span.group", t).text(e.get("playlist")), 

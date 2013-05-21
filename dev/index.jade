@@ -47,40 +47,40 @@ html(lang="en")
               span 刪除已勾選
               span.left
               span.right
-        table.subject
-          tr
-            th.choose: span v
-            th.thumb: span 縮圖
-            th.name: span 標題
-            th.percentage: span 進度
-            th.size: span 檔案大小
-            th.owner: span 擁有人
-            th.src: span 來源
-            th.quality: span 畫質
-            th.btn-cancel: span 放棄
-            th.btn-reload: span 重載
-            th.btn-remove: span 刪除
-            th.add_time: span 加入日期
+        .subject
+          .item
+            .column.choose: span v
+            .column.thumb: span 縮圖
+            .column.name: span 標題
+            .column.percentage: span 進度
+            .column.size: span 檔案大小
+            .column.owner: span 擁有人
+            .column.src: span 來源
+            .column.quality: span 畫質
+            .column.btn-cancel: span 放棄
+            .column.btn-reload: span 重載
+            .column.btn-remove: span 刪除
+            .column.add_time: span 加入日期
     #contents
       .container
-        table.list
-          tr.item
-            td.choose: span
-            td.thumb: span
-            td.name
+        .list
+          .item
+            .column.choose: span
+            .column.thumb: span
+            .column.name
               span.group
               span.title
-            td.percentage
+            .column.percentage
               span.progress: .bar
               span.status
-            td.size: span
-            td.owner: span
-            td.src: span: a(target="_blank")
-            td.quality: span
-            td.btn-cancel: a
-            td.btn-reload: a
-            td.btn-remove: a
-            td.add_time: span
+            .column.size: span
+            .column.owner: span
+            .column.src: span: a(target="_blank")
+            .column.quality: span
+            .column.btn-cancel: a
+            .column.btn-reload: a
+            .column.btn-remove: a
+            .column.add_time: span
     #fixed
       .login
         .form-horizontal

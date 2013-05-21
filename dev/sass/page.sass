@@ -313,7 +313,7 @@ $container: 980px
     ul
       li
         display: block
-        padding: 5px 0px
+        padding: 1px 2px 0px 2px
         margin: 5px 17px
         cursor: pointer
         float: left
@@ -337,11 +337,11 @@ $container: 980px
     border-collapse: collapse
     background: inline-image('thead_bg.png')
     border: none
-    tr, th
+    .item, .column
       border: none
       height: $subject
       font-size: 13px
-    th
+    .column
       background: inline-image('thead_hr.png')
       background-repeat: no-repeat
       overflow: hidden
@@ -355,13 +355,14 @@ $container: 980px
 
 #contents
   margin-top: $header + $toolbar + $subject
-  $height: 54px
+  $height: 56px
   .btn-cancel, .btn-reload, .btn-remove
     a
       display: block
       width: 22px
       height: 22px
       margin: 0 auto
+      margin-top: ($height - 22px) / 2
   .btn-cancel a
     background: inline-image('stop_normal.png')
     &:hover
@@ -388,11 +389,11 @@ $container: 980px
       width: 100%
       border-collapse: collapse
       border: none
-      tr, td
+      .item, .column
         border: none
         height: $height
         position: relative
-      tr
+      .item
         &.complete, &.failed
           .btn-cancel a
             background: inline-image('stop_disable.png')
@@ -417,7 +418,7 @@ $container: 980px
         &.fail
           .status
             background: inline-image('status_fail.png')
-      td
+      .column
         text-align: center
         span
           white-space: nowrap
@@ -425,29 +426,43 @@ $container: 980px
           text-overflow: ellipsis
           display: block
           margin-left: 3px
+          margin-top: ($height - 18px) / 2
         &.choose
           cursor: pointer
           span
             width: 18px
             height: 18px
-            margin: 0 auto  
+            margin: 0 auto
+            margin-top: ($height - 18px) / 2
             background: inline-image('checkbox.png')
         &.thumb
           cursor: pointer
           span
-            height: 54px - 6px
+            height: $height - 6px
+            margin-top: 3px
             background-size: cover
         &.name
           cursor: pointer
           text-align: left
+          .group
+            color: #666
+            margin-top: ($height - 20px) / 2 - 10px
+          .title
+            margin-top: -2px
+            font-size: 16px
         &.percentage
           .status
             width: 18px
             height: 18px
             position: absolute
-            left: 0px
+            left: 3px
             top: 16px
+            margin: 0
           .progress
+            position: absolute
+            left: 6px
+            top: 22px
+            margin: 0
             height: 10px
             border: 1px #303030 solid
             background: inline-image('percentage_bg.png')
@@ -460,55 +475,52 @@ $container: 980px
               +experimental(animation, percentage 0.4s infinite linear)
 
 #toolbar, #contents
-  tr
+  .item
     clear: both
     font-size: 12px
-    td, th
-      overflow: hidden
-    .choose
+  .column
+    overflow: hidden
+    text-align: center
+    float: left
+    &.choose
       width: 28px
       span
         width: 28px - 6px
-    .thumb
+    &.thumb
       width: 90px
       span
         width: 90px - 6px
-    .name
-      width: 300px
+    &.name
+      width: 320px
       span
-        width: 300px - 6px
-        &.group
-          color: #666
-          margin-bottom: 2px
-        &.title
-          font-size: 16px
-    .percentage
+        width: 320px - 6px
+    &.percentage
       width: 100px
       span
-        width: 100px - 6px
-    .size
+        width: 100px - 12px
+    &.size
       width: 81px
       span
         width: 81px - 6px
-    .owner
+    &.owner
       width: 60px
       span
         width: 60px - 6px
-    .src
-      width: 50px
+    &.src
+      width: 60px
       span
-        width: 50px - 6px
-    .quality
+        width: 60px - 6px
+    &.quality
       width: 44px
       span
         width: 44px - 6px
-    .btn-cancel
+    &.btn-cancel
       width: 35px
-    .btn-reload
+    &.btn-reload
       width: 35px
-    .btn-remove
+    &.btn-remove
       width: 35px
-    .add_time
+    &.add_time
       width: 92px
       span
         width: 92px - 6px
@@ -629,7 +641,7 @@ $container: 980px
 .dialog
   $width: 380px
   $height: 180px
-  z-index: 99
+  z-index: 9999
   position: absolute
   top: 50%
   left: 50%

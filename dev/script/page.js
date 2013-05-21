@@ -97,7 +97,7 @@ $(function() {
   var event_cancel, event_reload, event_remove, item, list, subject, sys_status, sys_user, update, win;
 
   win = $(window);
-  list = $('#contents .list tbody');
+  list = $('#contents .list');
   subject = $('#toolbar .subject');
   item = $('.item', list).detach();
   $.task.on('add', function(m, c, opt) {
