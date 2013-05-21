@@ -255,6 +255,31 @@ $(function() {
       return $('.login').removeClass('proceed');
     });
   });
+  $('#dialog-chrome a').click(function() {
+    $('#viewport').removeClass('no-chrome');
+    if ($('#dialog-chrome .donot').is(':checked')) {
+      return $.cookie('donot-chrome', '1', {
+        expiress: 365
+      });
+    }
+  });
+  if (!(window.navigator.userAgent.indexOf("Chrome") !== -1 || ($.cookie('donot-chrome') != null))) {
+    $('#viewport').addClass('no-chrome');
+  }
+  $('#dialog-ext a').click(function() {
+    $('#viewport').addClass('has-ext');
+    if ($('#dialog-ext .donot').is(':checked')) {
+      return $.cookie('donot-ext', '1', {
+        expiress: 365
+      });
+    }
+  });
+  if (window.navigator.userAgent.indexOf("Chrome") === -1 || ($.cookie('donot-ext') != null)) {
+    $('#viewport').addClass('has-ext');
+  }
+  $('#dialog-qpkg a, #dialog-error a').click(function() {
+    return $('#viewport').removeClass('has-error no-qpkg');
+  });
   $('.box-nav .nav-refresh').on('click', function() {
     $('.list tbody').empty();
     $.task.reset();

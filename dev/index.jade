@@ -12,7 +12,7 @@ html(lang="en")
     link(rel='stylesheet', type='text/css', href='./style/page.css')
     script(type='text/javascript', src='./script/page.js')
     
-  body#viewport.guest
+  body#viewport.guest.happyget_cn
     #header
       .container
         a#logo(href='#')
@@ -101,3 +101,52 @@ html(lang="en")
             button#login-submit(type='submit').pull-right 登入
         .tipbox
           label Login...
+    #dialog-chrome.dialog
+      p 
+        | Your browser is not 
+        b &nbsp;Google Chrome&nbsp;
+        | , displaying may be incorrect or unsmooth.
+      p
+        | Would you like to use
+        b &nbsp;Google Chrome&nbsp;
+        | ?
+      .input
+        input.donot(type='checkbox')
+        span Don’t show this message again.
+      .btn-bar
+        a.btn(href="#") No, Continue
+        a.btn.btn-primary(href="http://chrome.google.com/",target="_blank") Yes, Go get it
+    #dialog-ext.dialog
+      p 
+        b HappyGet2 Extension&nbsp;
+        | is not installed, and you would be able to view the download status only.
+      p
+        | Would you like to install 
+        b &nbsp;HappyGet2 Extension&nbsp;
+        | ?
+      .input
+        input.donot(type='checkbox')
+        span Don’t show this message again.
+      .btn-bar
+        a.btn(href='#') No, Continue
+        a.btn.btn-primary(href="https://chrome.google.com/webstore/detail/ljciphafakdahicbelljmdbnadjopffb",target="_blank") Yes, Go get it
+    #dialog-qpkg.dialog
+      p 
+        b HappyGet2 QPKG/App &nbsp;
+        | is not started.
+      p 
+        | Please go to
+        b &nbsp;QPKG/App Center&nbsp;
+        | and enable it.
+      .btn-bar
+        a.btn.btn-primary(href='./api/go_server.php',target='_blank') Go to QPKG Center
+    #dialog-error.dialog
+      p
+        b HappyGet2&nbsp;
+        | Server is not running correctly.
+      p
+        | Please go to 
+        b &nbsp;QPKG/App Center&nbsp;
+        | and restart it.
+      .btn-bar
+        a.btn.btn-primary(href='./api/go_server.php',target='_blank') Go to QPKG Center

@@ -183,6 +183,22 @@ $ ->
         
       $('.login').removeClass 'proceed'
 
+  # dialog System Check
+  $('#dialog-chrome a').click () ->
+    $('#viewport').removeClass 'no-chrome'
+    $.cookie('donot-chrome', '1', { expiress: 365}) if $('#dialog-chrome .donot').is(':checked')
+
+  $('#viewport').addClass('no-chrome') unless window.navigator.userAgent.indexOf("Chrome") isnt -1 or $.cookie('donot-chrome')?
+
+  $('#dialog-ext a').click () ->
+    $('#viewport').addClass 'has-ext'
+    $.cookie('donot-ext', '1', { expiress: 365}) if $('#dialog-ext .donot').is(':checked')
+
+  $('#viewport').addClass('has-ext') if window.navigator.userAgent.indexOf("Chrome") is -1 or $.cookie('donot-ext')?
+
+  $('#dialog-qpkg a, #dialog-error a').click () ->
+    $('#viewport').removeClass 'has-error no-qpkg'
+
   # box nav
   $('.box-nav .nav-refresh').on 'click', () ->
     $('.list tbody').empty()
