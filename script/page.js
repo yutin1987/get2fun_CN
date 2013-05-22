@@ -291,7 +291,7 @@ Task = function(e) {
     $("#dialog-qpkg a, #dialog-error a").click(function() {
         return $("#viewport").removeClass("has-error no-qpkg");
     }), $(".box-nav .nav-refresh").on("click", function() {
-        return $(".list tbody").empty(), $.task.reset(), app.up_time = 0;
+        return $(".list").empty(), $.task.reset(), app.up_time = 0;
     }), $(".box-nav .nav-clear").on("click", function() {
         return $.ajax({
             type: "POST",
@@ -301,7 +301,7 @@ Task = function(e) {
             },
             dataType: "json",
             cache: !1
-        }), $(".list tbody").empty(), $.task.reset(), app.up_time = 0;
+        }), $(".list").empty(), $.task.reset(), app.up_time = 0;
     }), $(".box-nav .nav-logout").on("click", function() {
         return $("#viewport").addClass("guest"), $.app.set({
             status: 0

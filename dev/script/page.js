@@ -281,7 +281,7 @@ $(function() {
     return $('#viewport').removeClass('has-error no-qpkg');
   });
   $('.box-nav .nav-refresh').on('click', function() {
-    $('.list tbody').empty();
+    $('.list').empty();
     $.task.reset();
     return app.up_time = 0;
   });
@@ -295,7 +295,7 @@ $(function() {
       dataType: 'json',
       cache: false
     });
-    $('.list tbody').empty();
+    $('.list').empty();
     $.task.reset();
     return app.up_time = 0;
   });

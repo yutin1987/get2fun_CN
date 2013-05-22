@@ -201,7 +201,7 @@ $ ->
 
   # box nav
   $('.box-nav .nav-refresh').on 'click', () ->
-    $('.list tbody').empty()
+    $('.list').empty()
     $.task.reset()
     app.up_time = 0
 
@@ -213,7 +213,7 @@ $ ->
       dataType: 'json'
       cache: no
     })
-    $('.list tbody').empty()
+    $('.list').empty()
     $.task.reset()
     app.up_time = 0
     # $.task.forEach (item) ->
