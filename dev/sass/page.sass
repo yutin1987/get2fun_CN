@@ -412,6 +412,8 @@ $container: 980px
         &.download
           .status
             background: inline-image('status_download.png')
+          .percentage .bar
+            +experimental(animation, percentage 0.4s infinite linear)
         &.complete
           .status
             background: inline-image('status_complete.png')
@@ -472,7 +474,6 @@ $container: 980px
               height: 10px
               background: inline-image('percentage.png')
               +transition(width 250ms ease-in-out 50ms)
-              +experimental(animation, percentage 0.4s infinite linear)
 
 #toolbar, #contents
   .item
