@@ -21,9 +21,9 @@ html(lang="en")
           .icon
             .circle
             .img
-          span.text.text-running.i18n(text='running') Running
-          span.text.text-stopped.i18n(text='stopped') Stopped
-          span.text.text-paused.i18n(text='paused') Paused
+          span.text.text-running.i18n(text='running') 运行
+          span.text.text-stopped.i18n(text='stopped') 停止
+          span.text.text-paused.i18n(text='paused') 暂停
         .box-ver V2.0
         ul.box-nav
           li: a.nav-logout.i18n(href='#logout',text='extension') 退出
@@ -37,15 +37,15 @@ html(lang="en")
         .toolbar
           ul
             li.cancel
-              span 停止已勾選
+              span 取消已勾選
               span.left
               span.right
             li.reload
-              span 重載已勾選
+              span 重载已勾選
               span.left
               span.right
             li.remove
-              span 刪除已勾選
+              span 删除已勾選
               span.left
               span.right
         .subject
@@ -95,10 +95,10 @@ html(lang="en")
             .right
             i.icon-pwd
             input#password(type='password', placeholder='密码')
-          .message *Invalid username or password
+          .message *用户名或密码錯誤
           .toolbar
             label.remember
-              | Remember me
+              | 记住用户名及密码
             button#login-submit(type='submit').pull-right 登录
         .tipbox
           label Login...
