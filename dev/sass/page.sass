@@ -354,7 +354,11 @@ $container: 980px
         cursor: pointer
 
 #contents
-  margin-top: $header + $toolbar + $subject
+  position: absolute
+  left: 50%
+  top: 0px
+  height: 100%
+  margin-left: -$container / 2
   $height: 56px
   .btn-cancel, .btn-reload, .btn-remove
     a
@@ -384,11 +388,13 @@ $container: 980px
   .container
     background: #e6edf6
     min-height: $height*10
+    margin: 0px
     background: inline-image('list_bg.png')
     .list
       width: 100%
       border-collapse: collapse
       border: none
+      margin-top: $header + $toolbar + $subject
       .item, .column
         border: none
         height: $height
