@@ -26,12 +26,12 @@ html(lang="en")
           span.text.text-paused.i18n(text='paused') Paused
         .box-ver V2.0
         ul.box-nav
-          li: a.nav-logout.i18n(href='#logout',text='extension') 登出
+          li: a.nav-logout.i18n(href='#logout',text='extension') 退出
           li.separation
           li: a.nav-ext.i18n(href='https://chrome.google.com/webstore/detail/ljciphafakdahicbelljmdbnadjopffb',target='_blank',text='extension') 扩展程序
           li.separation
           li: a.nav-clear.i18n(href='#',text='clear') 清除
-          li: a.nav-refresh.i18n(href='#',text='refresh') 重新整理
+          li: a.nav-refresh.i18n(href='#',text='refresh') 刷新
     #toolbar
       .container
         .toolbar
@@ -51,17 +51,17 @@ html(lang="en")
         .subject
           .item
             .column.choose: span v
-            .column.thumb: span 縮圖
-            .column.name: span 標題
-            .column.percentage: span 進度
-            .column.size: span 檔案大小
-            .column.owner: span 擁有人
-            .column.src: span 來源
-            .column.quality: span 畫質
-            .column.btn-cancel: span 放棄
-            .column.btn-reload: span 重載
-            .column.btn-remove: span 刪除
-            .column.add_time: span 加入日期
+            .column.thumb: span 缩图
+            .column.name: span 标题
+            .column.percentage: span 进度
+            .column.size: span 文件大小
+            .column.owner: span 所有者
+            .column.src: span 来源
+            .column.quality: span 质量
+            .column.btn-cancel: span 取消
+            .column.btn-reload: span 重载
+            .column.btn-remove: span 删除
+            .column.add_time: span 添加日期
     #contents
       .container
         .list
@@ -89,17 +89,17 @@ html(lang="en")
             .left
             .right
             i.icon-user
-            input#username(type='text', placeholder='Username')
+            input#username(type='text', placeholder='用户名')
           .input.input-password
             .left
             .right
             i.icon-pwd
-            input#password(type='password', placeholder='Password')
+            input#password(type='password', placeholder='密码')
           .message *Invalid username or password
           .toolbar
             label.remember
               | Remember me
-            button#login-submit(type='submit').pull-right 登入
+            button#login-submit(type='submit').pull-right 登录
         .tipbox
           label Login...
     #dialog-chrome.dialog
