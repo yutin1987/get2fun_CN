@@ -184,6 +184,7 @@ Task = function(e) {
     $.task.on("add", function(e) {
         var t;
         return t = r.clone().data("tid", e.id), $(t).addClass(STATUS_CODE[e.get("status")]), 
+        "admin" !== $.app.get("user") && $.app.get("user") !== e.get("owner") && $(t).addClass("unremove"), 
         $(".thumb span", t).css("background-image", "url(" + e.get("cover") + ")"), $(".name span.group", t).text(e.get("playlist")), 
         $(".name span.title", t).text(e.get("name")), $(".owner span", t).text(e.get("owner")), 
         $(".src span a", t).text(e.get("srcType")).attr("href", e.get("srcUrl")), $(".size span", t).text((e.get("size") + "").toSize()), 
@@ -218,6 +219,10 @@ Task = function(e) {
         });
     }, c(), $.app.on("change:status", function(e, t) {
         return 1 === t || 2 === t ? $("#viewport").removeClass("guest") : $("#viewport").addClass("guest");
+    }), $.app.on("change:user", function(e, t) {
+        return "admin" === t ? $(".item", s).removeClass("unremove") : $(".item", s).each(function() {
+            return $.task.get($(this).data("tid")).get("owner") === t ? $(this).removeClass("unremove") : $(this).addClass("unremove");
+        });
     }), t = function(e, a) {
         return null == a && (a = 0), $.ajax({
             type: "POST",
@@ -331,7 +336,9 @@ Task = function(e) {
     }), $("#toolbar .toolbar .remove").on("click", function() {
         var e;
         return e = $(".item.selected", s), e.length > 0 ? (e = e.map(function() {
-            return $(this).data("tid");
+            return $(this).hasClass("unremove") ? -1 : $(this).data("tid");
+        }), e = _.filter(e, function(e) {
+            return e > -1;
         }), a($.makeArray(e)), $(e).each(function() {
             return $.task.remove($.task.get(this));
         })) : void 0;
@@ -349,8 +356,8 @@ Task = function(e) {
         t([ e ]);
     }), $(s).on("click", ".btn-remove", function() {
         var e;
-        return e = $(this).parents(".item:first").data("tid"), $.task.remove($.task.get(e)), 
-        a([ e ]);
+        return r = $(this).parents(".item:first"), r.hasClass("unremove") ? !1 : (e = r.data("tid"), 
+        $.task.remove($.task.get(e)), a([ e ]));
     }), o = function() {
         return $.ajax({
             type: "POST",

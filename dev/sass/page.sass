@@ -386,6 +386,8 @@ $container: 980px
       background: inline-image('remove_hover.png')
     &:active
       background: inline-image('remove_active.png')
+  .item.unremove .btn-remove a
+    background: inline-image('remove_unavailable.png')
   .container
     background: #e6edf6
     min-height: $height*10
@@ -643,8 +645,6 @@ $container: 980px
       .tipbox
         display: block
         +opacity(1)
-
-
 
 .dialog
   $width: 380px
