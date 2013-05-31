@@ -361,11 +361,17 @@ $container: 980px
   width: $container
   margin-left: -$container / 2
   $height: 56px
+  .is-admin &,
+  .item.is-myself
+    .btn-cancel, .btn-reload, .btn-remove
+      a
+        width: 22px
+        height: 22px
   .btn-cancel, .btn-reload, .btn-remove
     a
       display: block
-      width: 22px
-      height: 22px
+      width: 0px
+      height: 0px
       margin: 0 auto
       margin-top: ($height - 22px) / 2
   .btn-cancel a
@@ -386,8 +392,6 @@ $container: 980px
       background: inline-image('remove_hover.png')
     &:active
       background: inline-image('remove_active.png')
-  .item.unremove .btn-remove a
-    background: inline-image('remove_unavailable.png')
   .container
     background: #e6edf6
     min-height: $height*10

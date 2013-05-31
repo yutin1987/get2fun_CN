@@ -63,7 +63,7 @@ $ ->
   $.task.on 'add', (m, c, opt) ->
     new_item = item.clone().data 'tid', m.id
     $(new_item).addClass STATUS_CODE[m.get('status')]
-    $(new_item).addClass 'unremove' if $.app.get('user') isnt 'admin' and $.app.get('user') isnt m.get('owner')
+    $(new_item).addClass 'is-myself' if $.app.get('user') is m.get('owner')
     $('.thumb span',new_item).css('background-image','url('+m.get('cover')+')')
     $('.name span.group',new_item).text(m.get('playlist'))
     $('.name span.title',new_item).text(m.get('name'))
@@ -122,13 +122,15 @@ $ ->
 
   $.app.on 'change:user', (m, v, opt) ->
     if v is 'admin'
-      $('.item', list).removeClass 'unremove'
+      $('body').addClass 'is-admin'
     else
-      $('.item', list).each ->
-        if $.task.get($(@).data('tid')).get('owner') is v
-          $(@).removeClass 'unremove'
-        else
-          $(@).addClass 'unremove'
+      $('body').removeClass 'is-admin'
+
+    $('.item', list).each ->
+      if $.task.get($(@).data('tid')).get('owner') is v
+        $(@).addClass 'is-myself'
+      else
+        $(@).removeClass 'is-myself'
 
   event_reload = (tid, num=0) ->
     $.ajax({
@@ -260,8 +262,8 @@ $ ->
   $('#toolbar .toolbar .remove').on 'click', () ->
     selected = $('.item.selected', list)
     if selected.length > 0
-      selected = selected.map -> if $(@).hasClass('unremove') then -1 else $(@).data('tid')
-      selected = _.filter(selected, (v)-> v > -1 )
+      selected = selected.map -> $(@).data('tid')
+      #selected = _.filter(selected, (v)-> v > -1 )
       event_remove $.makeArray(selected) 
       $(selected).each () -> $.task.remove($.task.get(@))
 
@@ -288,7 +290,6 @@ $ ->
 
   $(list).on 'click', '.btn-remove', () ->
     item = $(@).parents('.item:first')
-    return no if item.hasClass('unremove')
     tid = item.data('tid')
     $.task.remove $.task.get(tid)
     event_remove [tid]

@@ -105,8 +105,8 @@ $(function() {
 
     new_item = item.clone().data('tid', m.id);
     $(new_item).addClass(STATUS_CODE[m.get('status')]);
-    if ($.app.get('user') !== 'admin' && $.app.get('user') !== m.get('owner')) {
-      $(new_item).addClass('unremove');
+    if ($.app.get('user') === m.get('owner')) {
+      $(new_item).addClass('is-myself');
     }
     $('.thumb span', new_item).css('background-image', 'url(' + m.get('cover') + ')');
     $('.name span.group', new_item).text(m.get('playlist'));
@@ -171,16 +171,17 @@ $(function() {
   });
   $.app.on('change:user', function(m, v, opt) {
     if (v === 'admin') {
-      return $('.item', list).removeClass('unremove');
+      $('body').addClass('is-admin');
     } else {
-      return $('.item', list).each(function() {
-        if ($.task.get($(this).data('tid')).get('owner') === v) {
-          return $(this).removeClass('unremove');
-        } else {
-          return $(this).addClass('unremove');
-        }
-      });
+      $('body').removeClass('is-admin');
     }
+    return $('.item', list).each(function() {
+      if ($.task.get($(this).data('tid')).get('owner') === v) {
+        return $(this).addClass('is-myself');
+      } else {
+        return $(this).removeClass('is-myself');
+      }
+    });
   });
   event_reload = function(tid, num) {
     if (num == null) {
@@ -364,14 +365,7 @@ $(function() {
     selected = $('.item.selected', list);
     if (selected.length > 0) {
       selected = selected.map(function() {
-        if ($(this).hasClass('unremove')) {
-          return -1;
-        } else {
-          return $(this).data('tid');
-        }
-      });
-      selected = _.filter(selected, function(v) {
-        return v > -1;
+        return $(this).data('tid');
       });
       event_remove($.makeArray(selected));
       return $(selected).each(function() {
@@ -407,9 +401,6 @@ $(function() {
     var tid;
 
     item = $(this).parents('.item:first');
-    if (item.hasClass('unremove')) {
-      return false;
-    }
     tid = item.data('tid');
     $.task.remove($.task.get(tid));
     return event_remove([tid]);
