@@ -180,15 +180,15 @@ Task = function(e) {
     up_time: 0
 }, $.task = new TaskList(), $.app = new App(), $(function() {
     var e, t, a, r, s, n, o, i, c, u;
-    return u = $(window), s = $("#contents .list"), n = $("#toolbar .subject"), r = $(".item", s).detach(), 
+    return u = $(window), s = $("#contents .list"), n = $("#toolbar .subject"), r = $(".item:eq(0)", s).detach(), 
     $.task.on("add", function(e) {
         var t;
         return t = r.clone().data("tid", e.id), $(t).addClass(STATUS_CODE[e.get("status")]), 
-        $.app.get("user") === e.get("owner") && $(t).addClass("is-myself"), $(".thumb span", t).css("background-image", "url(" + e.get("cover") + ")"), 
-        $(".name span.group", t).text(e.get("playlist")), $(".name span.title", t).text(e.get("name")), 
-        $(".owner span", t).text(e.get("owner")), $(".src span a", t).text(e.get("srcType")).attr("href", e.get("srcUrl")), 
-        $(".size span", t).text((e.get("size") + "").toSize()), $(".percentage .bar", t).width(100 * (e.get("dlSize") / e.get("size")) + "%"), 
-        $(".add_time span", t).text(new Date(1e3 * e.get("added_time")).toFormat("yyyy-MM-dd")), 
+        $.app.get("user") === e.get("owner") ? $(t).addClass("is-myself") : $(t).removeClass("is-myself"), 
+        $(".thumb span", t).css("background-image", "url(" + e.get("cover") + ")"), $(".name span.group", t).text(e.get("playlist")), 
+        $(".name span.title", t).text(e.get("name")), $(".owner span", t).text(e.get("owner")), 
+        $(".src span a", t).text(e.get("srcType")).attr("href", e.get("srcUrl")), $(".size span", t).text((e.get("size") + "").toSize()), 
+        $(".percentage .bar", t).width(100 * (e.get("dlSize") / e.get("size")) + "%"), $(".add_time span", t).text(new Date(1e3 * e.get("added_time")).toFormat("yyyy-MM-dd")), 
         e.dom = t, s.append(t);
     }), $.task.on("change:dlSize", function(e, t) {
         return $(".percentage .bar", e.dom).width(100 * (t / e.get("size")) + "%");

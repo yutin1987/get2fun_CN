@@ -57,13 +57,16 @@ $ ->
   win = $(window)
   list = $('#contents .list')
   subject = $('#toolbar .subject')
-  item = $('.item',list).detach()
+  item = $('.item:eq(0)',list).detach()
   
   # Task
   $.task.on 'add', (m, c, opt) ->
     new_item = item.clone().data 'tid', m.id
     $(new_item).addClass STATUS_CODE[m.get('status')]
-    $(new_item).addClass 'is-myself' if $.app.get('user') is m.get('owner')
+    if $.app.get('user') is m.get('owner')
+      $(new_item).addClass 'is-myself'
+    else
+      $(new_item).removeClass 'is-myself'
     $('.thumb span',new_item).css('background-image','url('+m.get('cover')+')')
     $('.name span.group',new_item).text(m.get('playlist'))
     $('.name span.title',new_item).text(m.get('name'))

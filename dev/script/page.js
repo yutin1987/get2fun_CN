@@ -99,7 +99,7 @@ $(function() {
   win = $(window);
   list = $('#contents .list');
   subject = $('#toolbar .subject');
-  item = $('.item', list).detach();
+  item = $('.item:eq(0)', list).detach();
   $.task.on('add', function(m, c, opt) {
     var new_item;
 
@@ -107,6 +107,8 @@ $(function() {
     $(new_item).addClass(STATUS_CODE[m.get('status')]);
     if ($.app.get('user') === m.get('owner')) {
       $(new_item).addClass('is-myself');
+    } else {
+      $(new_item).removeClass('is-myself');
     }
     $('.thumb span', new_item).css('background-image', 'url(' + m.get('cover') + ')');
     $('.name span.group', new_item).text(m.get('playlist'));

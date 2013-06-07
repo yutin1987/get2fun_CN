@@ -1,5 +1,5 @@
 !!! 5
-html(lang="en")
+html
   head
     meta(http-equiv='Content-Type', content='text/html;charset=UTF-8')
     meta(name='viewport', content='width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no')
@@ -104,50 +104,50 @@ html(lang="en")
           label 登录中...
     #dialog-chrome.dialog
       p 
-        | Your browser is not 
-        b &nbsp;Google Chrome&nbsp;
-        | , displaying may be incorrect or unsmooth.
+        | 你的浏览器不是
+        b &nbsp;Chrome 360&nbsp;
+        | , 显示上可能会有不正确或不稳定的状况.
       p
-        | Would you like to use
-        b &nbsp;Google Chrome&nbsp;
-        | ?
+        | 想安装
+        b &nbsp;Chrome 360&nbsp;
+        | 吗?
       .input
         input.donot(type='checkbox')
-        span Don’t show this message again.
+        span 不要再提醒我.
       .btn-bar
-        a.btn(href="#") No, Continue
-        a.btn.btn-primary(href="http://chrome.google.com/",target="_blank") Yes, Go get it
+        a.btn(href="#") 否, 继续
+        a.btn.btn-primary(href="http://chrome.360.cn/",target="_blank") 是, 安装
     #dialog-ext.dialog
       p 
-        b HappyGet2 Extension&nbsp;
-        | is not installed, and you would be able to view the download status only.
+        b 抓抓乐2 扩展程序&nbsp;
+        | 没有安装，但你依旧可以继续浏览下载状态.
       p
-        | Would you like to install 
-        b &nbsp;HappyGet2 Extension&nbsp;
+        | 想安装
+        b &nbsp;抓抓乐2 扩展程序&nbsp;
         | ?
       .input
         input.donot(type='checkbox')
-        span Don’t show this message again.
+        span 不要再提醒我.
       .btn-bar
-        a.btn(href='#') No, Continue
-        a.btn.btn-primary(href="https://chrome.google.com/webstore/detail/edheddcjmegdokophlkkojeebplifkha",target="_blank") Yes, Go get it
+        a.btn(href='#') 否, 继续
+        a.btn.btn-primary(href="https://chrome.google.com/webstore/detail/edheddcjmegdokophlkkojeebplifkha",target="_blank") 是, 安装
     #dialog-qpkg.dialog
       p 
-        b HappyGet2 QPKG/App &nbsp;
-        | is not started.
+        b 抓抓乐2 QPKG/App &nbsp;
+        | 没有运转.
       p 
-        | Please go to
+        | 請前往
         b &nbsp;QPKG/App Center&nbsp;
-        | and enable it.
+        | 启动它.
       .btn-bar
-        a.btn.btn-primary(href='./api/go_server.php',target='_blank') Go to QPKG Center
+        a.btn.btn-primary(href='./api/go_server.php',target='_blank') 前往 QPKG Center
     #dialog-error.dialog
       p
-        b HappyGet2&nbsp;
-        | Server is not running correctly.
+        b 抓抓乐2&nbsp;
+        | 运转中出现错误.
       p
-        | Please go to 
+        | 請前往
         b &nbsp;QPKG/App Center&nbsp;
-        | and restart it.
+        | 重新启动它.
       .btn-bar
-        a.btn.btn-primary(href='./api/go_server.php',target='_blank') Go to QPKG Center
+        a.btn.btn-primary(href='./api/go_server.php',target='_blank') 前往 QPKG Center
