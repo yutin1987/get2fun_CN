@@ -273,7 +273,7 @@ Task = function(e) {
                 pwd: e
             },
             dataType: "json",
-            timeout: 4e3,
+            timeout: 6e3,
             cache: !1
         }).always(function(e, a) {
             return "success" === a && "true" == e + "" ? $.app.set({
@@ -362,7 +362,7 @@ Task = function(e) {
             type: "POST",
             url: API.INFO,
             dataType: "json",
-            timeout: 4e3,
+            timeout: 1e4,
             cache: !1
         }).always(function(e, t) {
             if ("success" === t) if (null != e.server) switch ("TRUE" !== e.server.qpkg_status ? $("body").addClass("no-qpkg") : 1 !== e.server.process_status || 0 === e.server.server_status ? $("body").addClass("has-error") : $("body").removeClass("no-qpkg has-error"), 
@@ -388,7 +388,7 @@ Task = function(e) {
                 check: !0
             },
             dataType: "json",
-            timeout: 4e3,
+            timeout: 1e4,
             cache: !1
         }).always(function(t, a) {
             return "success" === a && "true" === t.status ? $.app.set({

@@ -182,7 +182,7 @@ $ ->
       url: API.LOGIN
       data: { user: user, pwd: pwd}
       dataType: 'json'
-      timeout: 4000
+      timeout: 6000
       cache: no
     }).always (res,s) ->
       if s is 'success' and String(res) is 'true'
@@ -303,7 +303,7 @@ $ ->
       type: "POST"
       url: API.INFO
       dataType: 'json'
-      timeout: 4000
+      timeout: 10000
       cache: no
     }).always (res,s) ->
       if s is 'success'
@@ -337,7 +337,7 @@ $ ->
       url: API.LOGIN
       data: {check: true}
       dataType: 'json'
-      timeout: 4000
+      timeout: 10000
       cache: no
     }).always (res,s) ->
       if s is 'success' and res.status is "true"

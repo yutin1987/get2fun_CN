@@ -256,7 +256,7 @@ $(function() {
         pwd: pwd
       },
       dataType: 'json',
-      timeout: 4000,
+      timeout: 6000,
       cache: false
     }).always(function(res, s) {
       if (s === 'success' && String(res) === 'true') {
@@ -412,7 +412,7 @@ $(function() {
       type: "POST",
       url: API.INFO,
       dataType: 'json',
-      timeout: 4000,
+      timeout: 10000,
       cache: false
     }).always(function(res, s) {
       if (s === 'success') {
@@ -452,7 +452,7 @@ $(function() {
         check: true
       },
       dataType: 'json',
-      timeout: 4000,
+      timeout: 10000,
       cache: false
     }).always(function(res, s) {
       if (s === 'success' && res.status === "true") {
