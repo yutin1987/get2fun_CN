@@ -302,8 +302,9 @@ $ ->
     $.ajax({
       type: "POST"
       url: API.INFO
+      data: {it: 'server'}
       dataType: 'json'
-      timeout: 10000
+      timeout: 15000
       cache: no
     }).always (res,s) ->
       if s is 'success'
@@ -337,7 +338,7 @@ $ ->
       url: API.LOGIN
       data: {check: true}
       dataType: 'json'
-      timeout: 10000
+      timeout: 15000
       cache: no
     }).always (res,s) ->
       if s is 'success' and res.status is "true"

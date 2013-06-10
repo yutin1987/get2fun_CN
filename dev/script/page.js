@@ -411,8 +411,11 @@ $(function() {
     return $.ajax({
       type: "POST",
       url: API.INFO,
+      data: {
+        it: 'server'
+      },
       dataType: 'json',
-      timeout: 10000,
+      timeout: 15000,
       cache: false
     }).always(function(res, s) {
       if (s === 'success') {
@@ -452,7 +455,7 @@ $(function() {
         check: true
       },
       dataType: 'json',
-      timeout: 10000,
+      timeout: 15000,
       cache: false
     }).always(function(res, s) {
       if (s === 'success' && res.status === "true") {

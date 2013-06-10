@@ -361,8 +361,11 @@ Task = function(e) {
         return $.ajax({
             type: "POST",
             url: API.INFO,
+            data: {
+                it: "server"
+            },
             dataType: "json",
-            timeout: 1e4,
+            timeout: 15e3,
             cache: !1
         }).always(function(e, t) {
             if ("success" === t) if (null != e.server) switch ("TRUE" !== e.server.qpkg_status ? $("body").addClass("no-qpkg") : 1 !== e.server.process_status || 0 === e.server.server_status ? $("body").addClass("has-error") : $("body").removeClass("no-qpkg has-error"), 
@@ -388,7 +391,7 @@ Task = function(e) {
                 check: !0
             },
             dataType: "json",
-            timeout: 1e4,
+            timeout: 15e3,
             cache: !1
         }).always(function(t, a) {
             return "success" === a && "true" === t.status ? $.app.set({
