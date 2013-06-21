@@ -117,12 +117,14 @@ $(function() {
     $('.src span a', new_item).text(m.get('srcType')).attr('href', m.get('srcUrl'));
     $('.size span', new_item).text(String(m.get('size')).toSize());
     $('.percentage .bar', new_item).width(m.get('dlSize') / m.get('size') * 100 + '%');
+    $('.percentage .num', new_item).text(Math.floor(m.get('dlSize') / m.get('size') * 1000) / 10 + '%');
     $('.add_time span', new_item).text(new Date(m.get('added_time') * 1000).toFormat('yyyy-MM-dd'));
     m.dom = new_item;
     return list.append(new_item);
   });
   $.task.on('change:dlSize', function(m, v, opt) {
-    return $('.percentage .bar', m.dom).width(v / m.get('size') * 100 + '%');
+    $('.percentage .bar', m.dom).width(v / m.get('size') * 100 + '%');
+    return $('.percentage .num', m.dom).text(Math.floor(v / m.get('size') * 1000) / 10 + '%');
   });
   $.task.on('change:size', function(m, v, opt) {
     return $('.size span', m.dom).text(String(v).toSize());

@@ -188,10 +188,11 @@ Task = function(e) {
         $(".thumb span", t).css("background-image", "url(" + e.get("cover") + ")"), $(".name span.group", t).text(e.get("playlist")), 
         $(".name span.title", t).text(e.get("name")), $(".owner span", t).text(e.get("owner")), 
         $(".src span a", t).text(e.get("srcType")).attr("href", e.get("srcUrl")), $(".size span", t).text((e.get("size") + "").toSize()), 
-        $(".percentage .bar", t).width(100 * (e.get("dlSize") / e.get("size")) + "%"), $(".add_time span", t).text(new Date(1e3 * e.get("added_time")).toFormat("yyyy-MM-dd")), 
+        $(".percentage .bar", t).width(100 * (e.get("dlSize") / e.get("size")) + "%"), $(".percentage .num", t).text(Math.floor(1e3 * (e.get("dlSize") / e.get("size"))) / 10 + "%"), 
+        $(".add_time span", t).text(new Date(1e3 * e.get("added_time")).toFormat("yyyy-MM-dd")), 
         e.dom = t, s.append(t);
     }), $.task.on("change:dlSize", function(e, t) {
-        return $(".percentage .bar", e.dom).width(100 * (t / e.get("size")) + "%");
+        return $(".percentage .bar", e.dom).width(100 * (t / e.get("size")) + "%"), $(".percentage .num", e.dom).text(Math.floor(1e3 * (t / e.get("size"))) / 10 + "%");
     }), $.task.on("change:size", function(e, t) {
         return $(".size span", e.dom).text((t + "").toSize());
     }), $.task.on("change:status", function(e, t) {
