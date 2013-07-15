@@ -73,8 +73,8 @@ $ ->
     $('.owner span',new_item).text(m.get('owner'))
     $('.src span a',new_item).text(m.get('srcType')).attr('href',m.get('srcUrl'))
     $('.size span',new_item).text(String(m.get('size')).toSize())
-    $('.percentage .bar', new_item).width(m.get('dlSize') / m.get('size') * 100 + '%')
-    $('.percentage .num', new_item).text(Math.floor(m.get('dlSize') / m.get('size') * 1000) / 10 + '%')
+    $('.percentage .bar', new_item).width(m.get('dlSize') / (m.get('size') || 1) * 100 + '%')
+    $('.percentage .num', new_item).text(Math.floor(m.get('dlSize') / (m.get('size') || 1) * 1000) / 10 + '%')
     #$('.status span',new_item).text(STATUS_CODE[m.get('status')])
     $('.add_time span',new_item).text(new Date(m.get('added_time')*1000).toFormat('yyyy-MM-dd'))
 
@@ -82,8 +82,8 @@ $ ->
     list.append(new_item)
 
   $.task.on 'change:dlSize', (m, v, opt) ->
-    $('.percentage .bar', m.dom).width(v / m.get('size') * 100 + '%')
-    $('.percentage .num', m.dom).text(Math.floor(v / m.get('size') * 1000) / 10 + '%')
+    $('.percentage .bar', m.dom).width(v / (m.get('size') || 1) * 100 + '%')
+    $('.percentage .num', m.dom).text(Math.floor(v / (m.get('size') || 1) * 1000) / 10 + '%')
 
 
   $.task.on 'change:size', (m, v, opt) ->
